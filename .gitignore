@@ -1,0 +1,19 @@
+# 用户配置与所有运行数据一律不分享
+.env
+.env.*
+!.env.example
+.tokens.json
+.tokens.json.*
+..tokens.json.*
+data/
+publish/
+logs/
+*.log
+*.lock
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+fixtures/single/
+runtime/
+.cloud.env

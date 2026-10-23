@@ -1,0 +1,29 @@
+WHOOP 健康工作台：怎么用
+
+你会得到什么？
+一个属于你自己的健康网站。手机随时查看睡眠、恢复、运动和趋势，云端后台每天更新。另有WorkBuddy每周自动周报，默认周一15:00推送上一完整周总结。
+
+第一步：把完整压缩包发给 WorkBuddy，再发这句话：
+“请解压并阅读 WORKBUDDY.md，部署我的私人 WHOOP 健康网站，开启云端持久化和每日自动更新，再按 WEEKLY_AUTOMATION.md 建立每周周报云端自动化，给我一个手机能打开的 HTTPS 网址。请完成后台部署，不要只发布静态页面。”
+按 WorkBuddy 提示确认需要的云服务。它完成后会给你网址和登录密码；如果提示平台能力或套餐不支持，先让它完成部署适配，不能只看预览页面就算成功。
+
+第二步：申请自己的 WHOOP API。
+1. 打开你的网站，登录 → 设置，复制页面显示的“WHOOP 回调地址”。
+2. 打开 https://developer-dashboard.whoop.com/，用自己的 WHOOP 账号登录。
+3. 先建 Team（已有可跳过），再创建 App，名字可填“我的健康工作台”。
+4. Redirect URI 填刚复制的回调地址；勾选六项 read 权限：
+   recovery、cycles、sleep、workout、profile、body_measurement。
+   如显示 offline 选项，也勾选，用于自动续期。
+5. 创建后找到 Client ID 和 Client Secret，分别复制到自己网站设置页的同名框。
+6. 保存 → 点击“连接 WHOOP” → 登录并同意授权 → 等待首次同步。
+
+第三步：手机使用。
+手机浏览器打开网址并登录即可。iPhone：Safari → 分享 → 添加到主屏幕；安卓：浏览器菜单 → 添加到主屏幕。以后不用每天填 API，也不用电脑开机；云端服务需保持有效。
+
+DeepSeek：可不填。
+想要 AI 分析时，到 https://platform.deepseek.com/ → API keys 创建密钥，填到你网站的 DeepSeek 设置中。只有主动点击 AI 分析才发送汇总数据并产生 DeepSeek 费用。不填也能正常抓取和看图表。
+
+授权失败：核对 WHOOP 后台回调地址与网站显示的完全一致，读取权限已勾选。
+数据没更新：先在 WHOOP App 同步手环，再在网站点“立即同步”；仍失败把错误提示交给 WorkBuddy，别发送密钥。
+
+完整说明见 README.md。技术部署步骤由 WorkBuddy 阅读 WORKBUDDY.md。

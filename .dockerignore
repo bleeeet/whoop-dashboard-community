@@ -1,0 +1,10 @@
+*
+!whoop.py
+!report.py
+!explain.py
+!server.py
+!fixtures/
+!fixtures/**
+fixtures/single/
+!cloud_server.py
+!weekly.py

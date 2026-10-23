@@ -1,0 +1,16 @@
+services:
+  whoop:
+    build: .
+    environment:
+      PUBLIC_URL: ${PUBLIC_URL:?请设置自己的HTTPS域名}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?请设置至少12位密码}
+      CRON_SECRET: ${CRON_SECRET:-}
+      AUTOMATION_SECRET: ${AUTOMATION_SECRET:-}
+      DATA_ROOT: /data
+      PORT: "8080"
+    ports:
+      - "127.0.0.1:8788:8080"
+    volumes:
+      - whoop-data:/data
+volumes:
+  whoop-data:
