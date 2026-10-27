@@ -4,7 +4,7 @@
 
 ## 使用方法
 
-1. **下载压缩包**：[点击下载最新版 WHOOP通用版_WorkBuddy部署包.zip](https://github.com/bleeeet/whoop-dashboard-community/releases/latest/download/WHOOP通用版_WorkBuddy部署包.zip)。
+1. **下载压缩包**：[点击下载最新版 WHOOP通用版_WorkBuddy部署包.zip](https://github.com/bleeeet/whoop-dashboard-community/releases/latest/download/WHOOP_WorkBuddy.zip)。
 2. **把整个压缩包直接发给 Workbuddy**，不用自己解压，然后告诉它：
 
    > 一键部署
