@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【预览】新手引导：约 5 分钟完成初始化</title><style>body{font:16px/1.6 system-ui;background:#101418;color:#e7edf2;max-width:760px;margin:24px auto;padding:0 18px;overflow-wrap:anywhere}a{color:#67d6b3}input,button,select{font:inherit;box-sizing:border-box;max-width:100%;padding:10px;border:1px solid #52616b;border-radius:6px;background:#19232b;color:inherit}input{display:block;width:100%;margin:5px 0 16px}button{cursor:pointer;margin:8px 8px 8px 0}input[type=checkbox]{display:inline-block;width:auto;margin:0 8px 0 0;vertical-align:middle}form{margin:20px 0}pre{white-space:pre-wrap}nav{display:flex;gap:16px;flex-wrap:wrap}.box{border:1px solid #2f6f5c;border-radius:10px;padding:14px 16px;margin:18px 0;background:#13201c}.box form{margin:10px 0 0}.primary{background:#1f7a5c;border-color:#2fa37b;color:#fff;font-weight:600}.warn{color:#ffb86b}code{background:#19232b;padding:2px 6px;border-radius:4px}ol li{margin:6px 0}label{display:block;margin:4px 0}.lead{color:#a9bccb;margin:0 0 18px}.step{border:1px solid #2b3a44;border-left:3px solid #2fa37b;border-radius:8px;padding:12px 14px;margin:12px 0;background:#141c22}.step h3{margin:0 0 6px;font-size:17px}.step .n{display:inline-block;min-width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#2fa37b;color:#08110d;font-size:13px;font-weight:700;margin-right:8px}.step p{margin:6px 0}.step ol,.step ul{margin:6px 0;padding-left:22px}.val{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.val code{flex:1 1 260px;word-break:break-all;padding:8px 10px}.val button{margin:0;padding:8px 12px;white-space:nowrap}.chip{display:inline-block;background:#19232b;border:1px solid #33454f;border-radius:999px;padding:2px 10px;margin:2px 6px 2px 0;font-size:14px}.field{display:flex;gap:8px;align-items:center}.field input{margin:5px 0 16px}.field button{margin:0 0 11px;padding:10px 12px;white-space:nowrap}.todo{list-style:none;padding:0;margin:8px 0}.todo li{padding:8px 0;border-bottom:1px solid #24313a;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.todo li:last-child{border-bottom:0}.todo .state{min-width:1.4em}.todo .grow{flex:1 1 240px}.done{color:#67d6b3}.pending{color:#ffb86b}.muted{color:#8fa3b1;font-size:14px}.btn{display:inline-block;background:#1f7a5c;border:1px solid #2fa37b;border-radius:6px;padding:9px 14px;color:#fff;text-decoration:none;font-weight:600}details{margin:10px 0}summary{cursor:pointer;color:#67d6b3}</style><div style="border:1px solid #2fa37b;background:#13201c;border-radius:10px;padding:12px 16px;margin:16px 0"><b>这是初始化页面的静态预览</b><p class="muted" style="margin:6px 0 0">真实部署后第一页就是这个样子：上面的回调地址会自动换成你自己的域名，复制按钮也能用。本文件只供查看，不能在这里完成初始化——请按 README 部署后在线填写。</p></div><h1>新手引导：约 5 分钟完成初始化</h1><p class="lead">第一次使用，跟着下面 7 步走一遍就好，大约 5 分钟。你要拿到的只有 <b>Client ID</b> 和 <b>Client Secret</b> 两个值——WHOOP 没有“一个 API Key”，而是“两个值 + 一次登录授权”，授权一次后网站会自动续期，以后不用再填。</p><p class="lead">DeepSeek 可以跳过：不填也能自动抓数据、看全部图表和周报，之后随时能在设置里补。</p><div class="box"><b>整体流程：</b><br>① 复制回调地址 → ② 在 WHOOP 开发者后台创建 App、填回调地址、勾 6 个权限 → ③ 复制 Client ID / Secret 填回下面表单 → ④ 保存后点「连接 WHOOP」登录并同意授权 → 完成。</div><div class="step"><h3><span class="n">1</span>复制这两个地址，后面两处要用</h3><p>回调地址（要填进 <b>REDIRECT URLS</b>）：</p><div class="val"><code>https://whoop.example.com/oauth/callback</code><button type="button" data-copy="https://whoop.example.com/oauth/callback">复制</button></div><p>隐私政策地址（要填进 <b>PRIVACY POLICY</b>，网站自带这个页面）：</p><div class="val"><code>https://whoop.example.com/privacy</code><button type="button" data-copy="https://whoop.example.com/privacy">复制</button></div></div><div class="step"><h3><span class="n">2</span>登录 WHOOP 开发者后台</h3><p>用你的 WHOOP 账号（手环 App 那个）登录。第一次进入如果提示创建 Team，随便起个名字创建即可；已有 Team 会直接进入团队页。</p><p><a class="btn" href="https://developer-dashboard.whoop.com/" target="_blank" rel="noreferrer">打开 WHOOP 开发者后台 →</a></p></div><div class="step"><h3><span class="n">3</span>新建一个 App</h3><p>点顶部 <b>APPS</b>，在「Your apps」页面右上角点 <b>CREATE NEW APP</b>。</p></div><div class="step"><h3><span class="n">4</span>填名字和联系邮箱</h3><p><b>NAME</b>：随便填，例如「我的健康工作台」（授权时会显示这个名字）<br><b>LOGO</b>：可以不传<br><b>CONTACTS</b>：填你自己的邮箱</p></div><div class="step"><h3><span class="n">5</span>填隐私政策和回调地址（最容易错的一步）</h3><p><b>PRIVACY POLICY</b>（必填，不填无法创建）：粘贴第 1 步那个以 <code>/privacy</code> 结尾的地址<br><b>REDIRECT URLS → Redirect #1</b>：粘贴第 1 步那个以 <code>/oauth/callback</code> 结尾的地址</p><p class="muted">必须和这里显示的一字不差：以 https:// 开头、以 /oauth/callback 结尾、末尾没有多余的 / 、没有空格。填错会导致最后一步授权失败。</p></div><div class="step"><h3><span class="n">6</span>勾选 6 个权限，然后创建</h3><p>在 <b>SCOPES</b> 里把 6 项全部勾上：</p><p><span class="chip">read:recovery</span><span class="chip">read:cycles</span><span class="chip">read:sleep</span><span class="chip">read:workout</span><span class="chip">read:profile</span><span class="chip">read:body_measurement</span></p><p><b>WEBHOOKS</b> 不用填。最后点 <b>CREATE APP</b>。</p></div><div class="step"><h3><span class="n">7</span>复制 Client ID 和 Client Secret</h3><p>创建后进入 App 详情页，<b>Credentials</b> 区域就是你要的两个值：Client ID 直接复制；Client Secret 默认显示为星号，点右边的眼睛图标显示后再复制。</p><p class="muted">Client Secret 相当于密码：只填进你自己的网站，不要发到聊天、群里或发给别人。页面上的“SANDBOX · 10 MEMBERS”是正常状态，个人使用不用升级。</p></div><h2 id="setup-form">第 8 步：填写并保存</h2><form method="post" action="#" onsubmit="return false"><input type="hidden" name="csrf" value="s.1793139550.kyG2bsSreyiDYQbR8yuI7qVxYop0lh4P3aJixVGAqQE"><label>设置登录密码（至少 8 位，以后打开网站用它登录，自己记好）<input type="password" name="password" autocomplete="new-password" minlength="8" required></label><label>再输一次登录密码<input type="password" name="password2" autocomplete="new-password" minlength="8" required></label><label>WHOOP Client ID（必填，第 7 步复制的第一个值）<input type="text" name="client_id" autocomplete="off" value="" required></label><label>WHOOP Client Secret（必填，第 7 步点眼睛后复制的第二个值）<input type="password" name="client_secret" autocomplete="new-password" required></label><label>DeepSeek API Key（选填，留空即可；填了才有 AI 分析）<input type="password" name="deepseek_key" autocomplete="new-password" placeholder="可以现在就跳过，之后在设置里补"></label><input type="hidden" name="auto_ai_present" value="1"><label><input type="checkbox" name="auto_ai" value="1" checked>填了 DeepSeek 时，每次同步后自动生成 AI 分析（会把汇总统计发给 DeepSeek 并按其价格计费，每次约几分钱）</label><button class="primary">保存，下一步连接 WHOOP</button></form><h2>常见问题</h2><details><summary>点「连接 WHOOP」后报错 / 授权失败？</summary><p>99% 是回调地址不一致。复制这个地址：<div class="val"><code>https://whoop.example.com/oauth/callback</code><button type="button" data-copy="https://whoop.example.com/oauth/callback">复制</button></div>到 WHOOP App 的编辑页逐字核对。</p></details><details><summary>创建 App 时提示 Privacy Policy URL is required</summary><p>第 5 步的 PRIVACY POLICY 没填，填 <code>https://whoop.example.com/privacy</code>。</p></details><details><summary>首页显示「同步失败」或数据没更新</summary><p>先打开 WHOOP 手机 App 让手环同步，再在网站首页点「立即同步」。</p></details><details><summary>以前建过 App（比如本地版用的 localhost 回调）</summary><p>不用重建：在 App 详情页点右上角铅笔图标进入编辑，把 Redirect 改成这个网站的地址（或用 ADD 新增），Privacy Policy 也可改成网站的 /privacy，保存即可。Client ID / Secret 不变。</p></details><details><summary>DeepSeek API Key 怎么获取（选填）</summary><p>打开 <a href="https://platform.deepseek.com/" target="_blank" rel="noreferrer">platform.deepseek.com</a>，注册登录后充值少量余额（几元即可，每次分析约几分钱）→ 左侧菜单 <b>API keys</b> → 创建，复制以 <code>sk-</code> 开头的密钥（只显示一次）→ 粘贴到设置页。模型保持默认即可。</p><p class="muted">AI 分析只发送最近 30 条记录的汇总统计（平均值、最大最小值），不发送姓名、邮箱或原始记录。</p></details><footer style="margin-top:40px;border-top:1px solid #52616b;padding-top:16px"><a href="mailto:bleetchenxuanling@gmail.com">开发联系：bleetchenxuanling@gmail.com</a></footer><script>
+(function () {
+  function flash(button, text) {
+    var original = button.getAttribute('data-label') || button.textContent;
+    button.setAttribute('data-label', original);
+    button.textContent = text;
+    setTimeout(function () { button.textContent = original; }, 1600);
+  }
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '-1000px';
+      document.body.appendChild(area);
+      area.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
+      document.body.removeChild(area);
+      ok ? resolve() : reject(new Error('copy failed'));
+    });
+  }
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-copy]');
+    if (button) {
+      copy(button.getAttribute('data-copy')).then(function () {
+        flash(button, '已复制');
+      }, function () {
+        flash(button, '请手动选中复制');
+      });
+      return;
+    }
+    var eye = event.target.closest('[data-reveal]');
+    if (eye) { reveal(eye); }
+  });
+  function reveal(button) {
+    var field = button.getAttribute('data-reveal');
+    var form = button.form || document;
+    var input = form.querySelector('[name="' + field + '"]');
+    if (!input) { return; }
+    if (button.getAttribute('data-shown') === '1') {
+      input.value = '';
+      input.type = 'password';
+      button.setAttribute('data-shown', '0');
+      button.textContent = '👁 查看';
+      return;
+    }
+    var token = form.querySelector('[name="csrf"]');
+    if (!token) { return; }
+    button.disabled = true;
+    fetch('/settings/reveal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'csrf=' + encodeURIComponent(token.value) + '&field=' + encodeURIComponent(field)
+    }).then(function (response) {
+      if (!response.ok) { throw new Error('reveal failed'); }
+      return response.json();
+    }).then(function (data) {
+      input.value = data.value || '';
+      input.type = 'text';
+      button.setAttribute('data-shown', '1');
+      button.textContent = '🙈 隐藏';
+    }).catch(function () {
+      button.textContent = '无法读取，请重试';
+    }).then(function () {
+      button.disabled = false;
+    });
+  }
+})();
+</script></html>

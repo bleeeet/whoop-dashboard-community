@@ -1,0 +1,8 @@
+{
+  "name": "whoop-cron",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "description": "每天 09:00、12:00（北京时间）触发 WHOOP 网站同步",
+  "engines": { "node": ">=18" }
+}

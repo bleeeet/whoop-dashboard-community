@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【预览】设置页 · 已保存的值可查看</title><style>body{font:16px/1.6 system-ui;background:#101418;color:#e7edf2;max-width:760px;margin:24px auto;padding:0 18px;overflow-wrap:anywhere}a{color:#67d6b3}input,button,select{font:inherit;box-sizing:border-box;max-width:100%;padding:10px;border:1px solid #52616b;border-radius:6px;background:#19232b;color:inherit}input{display:block;width:100%;margin:5px 0 16px}button{cursor:pointer;margin:8px 8px 8px 0}input[type=checkbox]{display:inline-block;width:auto;margin:0 8px 0 0;vertical-align:middle}form{margin:20px 0}pre{white-space:pre-wrap}nav{display:flex;gap:16px;flex-wrap:wrap}.box{border:1px solid #2f6f5c;border-radius:10px;padding:14px 16px;margin:18px 0;background:#13201c}.box form{margin:10px 0 0}.primary{background:#1f7a5c;border-color:#2fa37b;color:#fff;font-weight:600}.warn{color:#ffb86b}code{background:#19232b;padding:2px 6px;border-radius:4px}ol li{margin:6px 0}label{display:block;margin:4px 0}.lead{color:#a9bccb;margin:0 0 18px}.step{border:1px solid #2b3a44;border-left:3px solid #2fa37b;border-radius:8px;padding:12px 14px;margin:12px 0;background:#141c22}.step h3{margin:0 0 6px;font-size:17px}.step .n{display:inline-block;min-width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#2fa37b;color:#08110d;font-size:13px;font-weight:700;margin-right:8px}.step p{margin:6px 0}.step ol,.step ul{margin:6px 0;padding-left:22px}.val{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.val code{flex:1 1 260px;word-break:break-all;padding:8px 10px}.val button{margin:0;padding:8px 12px;white-space:nowrap}.chip{display:inline-block;background:#19232b;border:1px solid #33454f;border-radius:999px;padding:2px 10px;margin:2px 6px 2px 0;font-size:14px}.field{display:flex;gap:8px;align-items:center}.field input{margin:5px 0 16px}.field button{margin:0 0 11px;padding:10px 12px;white-space:nowrap}.todo{list-style:none;padding:0;margin:8px 0}.todo li{padding:8px 0;border-bottom:1px solid #24313a;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.todo li:last-child{border-bottom:0}.todo .state{min-width:1.4em}.todo .grow{flex:1 1 240px}.done{color:#67d6b3}.pending{color:#ffb86b}.muted{color:#8fa3b1;font-size:14px}.btn{display:inline-block;background:#1f7a5c;border:1px solid #2fa37b;border-radius:6px;padding:9px 14px;color:#fff;text-decoration:none;font-weight:600}details{margin:10px 0}summary{cursor:pointer;color:#67d6b3}</style><div style="border:1px solid #2fa37b;background:#13201c;border-radius:10px;padding:12px 16px;margin:16px 0"><b>这是静态预览（示例数据）</b><p class="muted" style="margin:6px 0 0">真实使用时的样子；Client ID 等均为示例，按钮点不了，不能在这里操作。</p></div><h1>设置</h1><nav><a href="/">首页</a><a href="/dashboard">健康工作台</a><a href="/settings">设置</a><a href="/ai">AI 分析</a><a href="/weekly">每周周报</a></nav><div class="box"><b>WHOOP 授权：</b>还差最后一步：点下面按钮登录 WHOOP 并同意授权<form method="post" action="#" data-was="/oauth/start"><input type="hidden" name="csrf" value="-IW0D_XEWQTsvngE81lUOXqkOedKIof9rsEPq7EwrZ8"><button class="primary">连接 WHOOP</button></form></div><div class="box"><b>WHOOP 回调地址</b>（要填进 WHOOP 后台 App 的 Redirect URL）：<div class="val"><code>http://127.0.0.1:8251/oauth/callback</code><button type="button" data-copy="http://127.0.0.1:8251/oauth/callback">复制</button></div><p class="muted">Privacy Policy 地址：<div class="val"><code>http://127.0.0.1:8251/privacy</code><button type="button" data-copy="http://127.0.0.1:8251/privacy">复制</button></div>完整建 App 的 7 步图文流程见 <a href="/guide">新手引导</a>。</p></div><p class="muted">Client ID 和模型名会直接显示；Client Secret 与 DeepSeek Key 不回显在网页源码里，点「显示已保存的值」按需读取，改完保存即可。留空 = 保持原值。</p><form method="post" action="#" data-was="/settings"><input type="hidden" name="csrf" value="-IW0D_XEWQTsvngE81lUOXqkOedKIof9rsEPq7EwrZ8"><label>WHOOP Client ID（必填）　<span class="done">✅ 已设置</span><input type="text" autocomplete="off" name="client_id" value="8f3c1d2e-4a5b-6c7d-8e9f-0123456789ab" placeholder="粘贴 WHOOP 后台 App 的 Client ID"></label><label>WHOOP Client Secret（必填）　<span class="done">✅ 已设置</span><span class="field"><input type="password" autocomplete="new-password" name="client_secret" placeholder="已保存，点右侧按钮查看"><button type="button" data-reveal="client_secret" data-shown="0" title="查看已保存的值">👁 查看</button></span></label><label>DeepSeek API Key（选填，不填只抓数据不做 AI 分析）<span class="field"><input type="password" autocomplete="new-password" name="deepseek_key" placeholder="sk-..."></span></label><label>DeepSeek 模型　<span class="done">✅ 已设置</span><input type="text" autocomplete="off" name="deepseek_model" value="deepseek-flash" placeholder="deepseek-flash"></label><input type="hidden" name="auto_ai_present" value="1"><label><input type="checkbox" name="auto_ai" value="1" checked>填了 DeepSeek 时，每次同步后自动生成 AI 分析（会把汇总统计发给 DeepSeek，按其价格计费，每次约几分钱）</label><label><input type="checkbox" name="remove_deepseek" value="1">删除已保存的 DeepSeek key</label><p>每天北京时间 09:00 和 12:00 自动更新；错过时下次打开网站后台补跑。</p><button class="primary">保存设置</button></form><div class="box"><b>恢复出厂设置</b><p>清除登录密码、WHOOP 凭据、已同步的数据和 AI 分析，回到第一次打开时的初始化界面。凭据填错了、或想换一个 WHOOP 开发者应用时用它重来一次。</p><form method="post" action="#" data-was="/settings/reset"><input type="hidden" name="csrf" value="-IW0D_XEWQTsvngE81lUOXqkOedKIof9rsEPq7EwrZ8"><label>输入当前登录密码以确认<input type="password" name="password" autocomplete="current-password" required></label><button>清除全部配置并重新开始</button></form></div><footer style="margin-top:40px;border-top:1px solid #52616b;padding-top:16px"><a href="mailto:bleetchenxuanling@gmail.com">开发联系：bleetchenxuanling@gmail.com</a></footer><script>
+(function () {
+  function flash(button, text) {
+    var original = button.getAttribute('data-label') || button.textContent;
+    button.setAttribute('data-label', original);
+    button.textContent = text;
+    setTimeout(function () { button.textContent = original; }, 1600);
+  }
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '-1000px';
+      document.body.appendChild(area);
+      area.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
+      document.body.removeChild(area);
+      ok ? resolve() : reject(new Error('copy failed'));
+    });
+  }
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-copy]');
+    if (button) {
+      copy(button.getAttribute('data-copy')).then(function () {
+        flash(button, '已复制');
+      }, function () {
+        flash(button, '请手动选中复制');
+      });
+      return;
+    }
+    var eye = event.target.closest('[data-reveal]');
+    if (eye) { reveal(eye); }
+  });
+  function reveal(button) {
+    var field = button.getAttribute('data-reveal');
+    var form = button.form || document;
+    var input = form.querySelector('[name="' + field + '"]');
+    if (!input) { return; }
+    if (button.getAttribute('data-shown') === '1') {
+      input.value = '';
+      input.type = 'password';
+      button.setAttribute('data-shown', '0');
+      button.textContent = '👁 查看';
+      return;
+    }
+    var token = form.querySelector('[name="csrf"]');
+    if (!token) { return; }
+    button.disabled = true;
+    fetch('/settings/reveal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'csrf=' + encodeURIComponent(token.value) + '&field=' + encodeURIComponent(field)
+    }).then(function (response) {
+      if (!response.ok) { throw new Error('reveal failed'); }
+      return response.json();
+    }).then(function (data) {
+      input.value = data.value || '';
+      input.type = 'text';
+      button.setAttribute('data-shown', '1');
+      button.textContent = '🙈 隐藏';
+    }).catch(function () {
+      button.textContent = '无法读取，请重试';
+    }).then(function () {
+      button.disabled = false;
+    });
+  }
+})();
+</script></html>

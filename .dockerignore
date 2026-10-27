@@ -8,3 +8,4 @@
 fixtures/single/
 !cloud_server.py
 !weekly.py
+!store.py

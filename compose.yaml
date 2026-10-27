@@ -2,8 +2,10 @@ services:
   whoop:
     build: .
     environment:
-      PUBLIC_URL: ${PUBLIC_URL:?请设置自己的HTTPS域名}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?请设置至少12位密码}
+      # 都可不设：PUBLIC_URL 按访问域名自动识别；ADMIN_PASSWORD 不设时首次打开网页自己设密码
+      PUBLIC_URL: ${PUBLIC_URL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      SETUP_CODE: ${SETUP_CODE:-}
       CRON_SECRET: ${CRON_SECRET:-}
       AUTOMATION_SECRET: ${AUTOMATION_SECRET:-}
       DATA_ROOT: /data

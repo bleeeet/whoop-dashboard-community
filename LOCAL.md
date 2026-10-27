@@ -43,7 +43,15 @@ python3 -m unittest discover -s tests -v
 
 ## 云端在线版
 
-在线入口已改为 `cloud_server.py`，带网页登录、设置和每日更新。Dockerfile 与 compose.yaml 对应在线版，请阅读 WORKBUDDY.md，不要用本地版无登录的 server.py 直接公网部署。
+在线入口是 `cloud_server.py`：首次打开进入初始化页（设登录密码、填 WHOOP 凭据），每天北京时间 09:00、12:00 同步。Dockerfile 与 compose.yaml 对应在线版，部署到 WorkBuddy/CloudBase 请阅读 WORKBUDDY.md。不要用本地版无登录的 server.py 直接公网部署。
+
+本机试跑在线版（无需任何环境变量）：
+
+```sh
+DATA_ROOT=runtime PORT=8788 HOST=127.0.0.1 python3 cloud_server.py
+```
+
+打开 http://127.0.0.1:8788/ 即进入初始化页。WHOOP App 的回调地址填页面显示的 `http://127.0.0.1:8788/oauth/callback`。
 
 ## 隐私与数据位置
 

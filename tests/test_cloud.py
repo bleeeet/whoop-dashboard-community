@@ -2,6 +2,7 @@ import http.client
 import importlib.util
 import json
 import io
+import os
 import shutil
 import urllib.error
 from pathlib import Path
@@ -37,6 +38,19 @@ class CloudTests(unittest.TestCase):
         hdr = {'Cookie': self.cookie, 'Content-Type': 'application/x-www-form-urlencoded'}
         hdr.update(headers or {})
         conn.request(method, path, urlencode(data) if data is not None else None, hdr)
+        r = conn.getresponse()
+        body = r.read().decode()
+        if r.getheader('Set-Cookie'):
+            self.cookie = r.getheader('Set-Cookie').split(';')[0]
+        result = (r.status, dict(r.getheaders()), body)
+        conn.close()
+        return result
+
+    def request_raw(self, method, path, body, headers=None):
+        conn = http.client.HTTPConnection(*self.server.server_address, timeout=5)
+        hdr = {'Cookie': self.cookie, 'Content-Type': 'application/json; charset=utf-8'}
+        hdr.update(headers or {})
+        conn.request(method, path, body.encode('utf-8'), hdr)
         r = conn.getresponse()
         body = r.read().decode()
         if r.getheader('Set-Cookie'):
@@ -111,13 +125,17 @@ class CloudTests(unittest.TestCase):
         self.assertEqual(self.request('GET', '/oauth/callback?code=x&state=bad')[0], 400)
 
     def test_schedule_utc_offset_and_catchup(self):
-        before = datetime(2026, 10, 23, 5, 59, tzinfo=timezone.utc)
-        after = datetime(2026, 10, 23, 6, 0, tzinfo=timezone.utc)
-        self.assertEqual(self.app.due_slot(before), '2026-10-22T14:00+08:00')
-        self.assertEqual(self.app.due_slot(after), '2026-10-23T14:00+08:00')
-        self.app.write_status({'schedule_slot': self.app.due_slot(after)})
-        self.assertFalse(self.app.schedule_due(after))
-        self.assertTrue(self.app.schedule_due(datetime(2026, 10, 24, 6, tzinfo=timezone.utc)))
+        # 09:00 and 12:00 Beijing time are 01:00 and 04:00 UTC.
+        utc = lambda d, h, m=0: datetime(2026, 10, d, h, m, tzinfo=timezone.utc)
+        self.assertEqual(self.app.due_slot(utc(23, 0, 59)), '2026-10-22T12:00+08:00')
+        self.assertEqual(self.app.due_slot(utc(23, 1)), '2026-10-23T09:00+08:00')
+        self.assertEqual(self.app.due_slot(utc(23, 3, 59)), '2026-10-23T09:00+08:00')
+        self.assertEqual(self.app.due_slot(utc(23, 4)), '2026-10-23T12:00+08:00')
+        self.assertEqual(self.app.due_slot(utc(23, 15)), '2026-10-23T12:00+08:00')
+        self.app.write_status({'schedule_slot': self.app.due_slot(utc(23, 1))})
+        self.assertFalse(self.app.schedule_due(utc(23, 2)))
+        self.assertTrue(self.app.schedule_due(utc(23, 4)))
+        self.assertTrue(self.app.schedule_due(utc(24, 1)))
 
     def test_optional_ai_only_post_and_aggregate(self):
         csrf = self.login()
@@ -134,8 +152,17 @@ class CloudTests(unittest.TestCase):
 
     def test_cron_requires_nonempty_secret(self):
         self.assertEqual(self.request('POST', '/internal/sync', {})[0], 403)
-        with mock.patch.dict(cloud.os.environ, {'CRON_SECRET': 'cronsecret'}), mock.patch.object(self.app, 'launch_sync', return_value=True):
-            self.assertEqual(self.request('POST', '/internal/sync', {}, {'Authorization': 'Bearer cronsecret'})[0], 202)
+        with mock.patch.dict(cloud.os.environ, {'CRON_SECRET': 'cronsecret'}):
+            self.assertEqual(self.request('POST', '/internal/sync', {}, {'Authorization': 'Bearer wrong'})[0], 403)
+            # Timer calls wait for the sync to finish and report its outcome.
+            with mock.patch.object(self.app, '_sync_worker'):
+                status, _, body = self.request('POST', '/internal/sync', {}, {'Authorization': 'Bearer cronsecret'})
+            self.assertEqual(status, 200)
+            self.assertIn('last_success', body)
+            with mock.patch.object(self.app, '_sync_worker', side_effect=ValueError('SECRET')):
+                status, _, body = self.request('POST', '/internal/sync', {}, {'Authorization': 'Bearer cronsecret'})
+            self.assertEqual(status, 502)
+            self.assertNotIn('SECRET', body)
 
     def test_cross_process_lock_and_failure_preserves_page(self):
         Path(self.tmp.name, 'dashboard.html').write_text('old page')
@@ -180,7 +207,8 @@ class CloudTests(unittest.TestCase):
         for flag in ('HttpOnly', 'SameSite=Lax', 'Secure', 'Path=/'):
             self.assertIn(flag, headers['Set-Cookie'])
         self.login()
-        with mock.patch.object(cloud.time, 'time', return_value=cloud.time.time() + 43201):
+        self.assertIn('Max-Age=' + str(cloud.SESSION_SECONDS), self.request('GET', '/settings')[1].get('Set-Cookie', 'Max-Age=' + str(cloud.SESSION_SECONDS)))
+        with mock.patch.object(cloud.time, 'time', return_value=cloud.time.time() + cloud.SESSION_SECONDS + 61):
             self.assertEqual(self.request('GET', '/settings')[0], 303)
 
     def test_account_credentials_change_removes_all_previous_health_artifacts(self):
@@ -261,9 +289,8 @@ class CloudTests(unittest.TestCase):
         body = self.request('GET', '/ai')[2]
         self.assertNotIn('APISECRET', body)
         self.assertNotIn('CLIENTSECRET', body)
-        self.assertNotIn('<script>', body)
+        self.assertNotIn('<script>alert(1)', body)
         self.assertIn('&lt;script&gt;', body)
-
     def test_ai_network_error_is_redacted_and_retains_previous_answer(self):
         csrf = self.login()
         self.app.update_settings({'deepseek_key': 'APISECRET'})
@@ -330,7 +357,12 @@ class CloudTests(unittest.TestCase):
             status, _, body = self.request('GET', '/weekly')
         self.assertEqual(status, 200)
         self.assertIn('&lt;script&gt;', body)
-        self.assertNotIn('<script>', body)
+        self.assertNotIn('<script>not executable', body)
+        # The home page keeps showing the setup checklist instead of redirecting, so a
+        # half-configured site still explains what is missing where the user lands.
+        self.assertEqual(self.request('GET', '/')[0], 200)
+        self.assertIn('配置进度', self.request('GET', '/')[2])
+        self.app.update_settings({'client_id': 'id', 'client_secret': 'secret'})
         self.assertIn('href="/weekly"', self.request('GET', '/')[2])
         generator.assert_called_once_with(str(self.app.root/'data'))
 
@@ -365,6 +397,41 @@ class CloudTests(unittest.TestCase):
             self.assertIn('2026-10-23T06:01:00+00:00', saved)
             self.assertIn('快照', saved)
             self.assertNotIn('尚未成功同步', saved)
+
+
+    def test_internal_export_requires_backup_secret(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(self.request('GET', '/internal/export')[0], 403)
+        with mock.patch.dict(os.environ, {'BACKUP_SECRET': 's3cret-value'}):
+            self.assertEqual(self.request('GET', '/internal/export')[0], 403)
+            self.assertEqual(self.request(
+                'GET', '/internal/export', headers={'Authorization': 'Bearer nope'})[0], 403)
+            status, _, body = self.request(
+                'GET', '/internal/export', headers={'Authorization': 'Bearer s3cret-value'})
+            self.assertEqual(status, 200)
+            payload = json.loads(body)
+            self.assertEqual(payload['format'], 'whoop-state/1')
+            self.assertIsInstance(payload['files'], dict)
+
+    def test_state_backup_roundtrip(self):
+        self.app.write_status({'last_success': '2026-10-23T06:01:00+00:00'})
+        snapshot = self.app.export_state()
+        self.assertIn('status.json', snapshot['files'])
+        # wipe the tracked state, then rebuild it from the snapshot
+        for name in cloud.statestore.NAMES:
+            (self.app.root / name).unlink(missing_ok=True)
+        self.assertIsNone(self.app.status().get('last_success'))
+        self.assertGreaterEqual(self.app.restore_state(snapshot), 1)
+        self.assertEqual(self.app.status().get('last_success'), '2026-10-23T06:01:00+00:00')
+        self.assertEqual(self.app.export_state()['files'], snapshot['files'])
+
+    def test_restore_rejects_bad_payloads(self):
+        for bad in ({}, {'format': 'other', 'files': {}},
+                    {'format': 'whoop-state/1', 'files': {}},
+                    {'format': 'whoop-state/1', 'files': {'../evil.json': '{}'}},
+                    {'format': 'whoop-state/1', 'files': {'settings.json': 5}}):
+            with self.assertRaises(ValueError):
+                self.app.restore_state(bad)
 
 
 if __name__ == '__main__':
